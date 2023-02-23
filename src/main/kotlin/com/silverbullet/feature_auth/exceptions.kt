@@ -27,3 +27,9 @@ class InvalidRefreshToken: ApplicationException(
     httpStatusCode = HttpStatusCode.Unauthorized,
     errorCode = ApplicationErrorCodes.InvalidRefreshTokenCode
 )
+
+class InvalidUsername: ApplicationException(
+    error = "invalid username",
+    httpStatusCode = HttpStatusCode.Conflict,
+    errorCode = ApplicationErrorCodes.InvalidUsername
+)

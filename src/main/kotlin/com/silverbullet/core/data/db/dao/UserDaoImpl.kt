@@ -34,7 +34,7 @@ class UserDaoImpl : UserDao {
             }
         }
 
-    override suspend fun getUser(username: String): DbResult<UserEntity?> {
+    override suspend fun getUser(username: String): DbResult.Success<UserEntity?> {
         return try {
             val user = dbQuery {
                 UsersTable.select {
@@ -45,7 +45,7 @@ class UserDaoImpl : UserDao {
             }
             DbResult.Success(user)
         } catch (e: ExposedSQLException) {
-            DbResult.Failed(e.toDbError())
+            DbResult.Success(null)
         }
     }
 

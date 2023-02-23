@@ -24,7 +24,7 @@ class ChannelsController(
         userId: Int,
         username: String
     ) {
-        val targetUser = usersDao.getUser(username) as? DbResult.Success ?: throw UnexpectedError()
+        val targetUser = usersDao.getUser(username)
         if (targetUser.data == null)
             throw UserNotFound()
         val targetUserId = targetUser.data.id

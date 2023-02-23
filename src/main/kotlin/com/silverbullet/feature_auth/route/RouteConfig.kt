@@ -13,5 +13,6 @@ fun Route.configureAuthenticationRoutes() {
         loginRoute(controller = authController)
         refreshTokenRoute(controller = authController)
         logoutRoute(controller = authController)
+        validateUsernameRoute(controller = authController)
     }
 }

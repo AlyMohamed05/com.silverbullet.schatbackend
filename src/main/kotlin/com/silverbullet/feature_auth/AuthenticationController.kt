@@ -86,6 +86,15 @@ class AuthenticationController(
         throw InvalidRefreshToken()
     }
 
+    /**
+     * if the username is valid returns true else throws an exception handled by the sttaus pages
+     */
+    suspend fun validateUsername(username: String) {
+        val user =userDao.getUser(username).data
+        if(user != null)
+            throw UsernameAlreadyExists()
+    }
+
     suspend fun logout(userId: Int) {
         // for now just deleting the refresh token to prevent reusing it to access protected routes
         val isDeleted = refreshTokenDao.deleteTokenForUser(userId)

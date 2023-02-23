@@ -13,5 +13,5 @@ interface UserDao {
         salt: String
     ): DbResult<UserInfo>
 
-    suspend fun getUser(username: String): DbResult<UserEntity?>
+    suspend fun getUser(username: String): DbResult.Success<UserEntity?>
 }

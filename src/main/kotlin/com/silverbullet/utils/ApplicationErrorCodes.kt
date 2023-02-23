@@ -15,10 +15,12 @@ object ApplicationErrorCodes {
 
     const val InvalidRefreshTokenCode = 5
 
+    const val InvalidUsername = 6
+
     // Channel routes Codes
-    const val AlreadyHaveChannelCode = 6
+    const val AlreadyHaveChannelCode = 7
 
-    const val NoChannelIdFoundCode = 7
+    const val NoChannelIdFoundCode = 8
 
-    const val NoCommonChannelBetweenUsersCode = 8
+    const val NoCommonChannelBetweenUsersCode = 9
 }
