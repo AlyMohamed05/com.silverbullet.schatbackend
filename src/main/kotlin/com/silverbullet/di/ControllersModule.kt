@@ -12,10 +12,10 @@ val controllersModule = module {
     }
 
     single {
-        ChannelsController(get(), get())
+        ChannelsController(get(), get(), get())
     }
 
     single {
-        MessagesController(get(), get(), get())
+        MessagesController(get(), get(), get(), get())
     }
 }

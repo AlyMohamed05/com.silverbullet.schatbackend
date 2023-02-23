@@ -1,5 +1,7 @@
 package com.silverbullet.di
 
+import com.silverbullet.core.events.DefaultEventsDispatcher
+import com.silverbullet.core.events.EventsDispatcher
 import com.silverbullet.core.security.hashing.SHA256HashingService
 import com.silverbullet.core.security.token.JwtTokenService
 import org.koin.dsl.module
@@ -19,5 +21,9 @@ val appModule = module {
     // Injecting the Coroutine db version
     single {
         KMongo.createClient().coroutine.getDatabase("s_chat_db")
+    }
+
+    single<EventsDispatcher> {
+        DefaultEventsDispatcher()
     }
 }

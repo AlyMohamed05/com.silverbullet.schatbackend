@@ -5,16 +5,21 @@ import com.silverbullet.core.data.db.interfaces.ChannelsDao
 import com.silverbullet.core.data.db.interfaces.MessagesDao
 import com.silverbullet.core.data.db.interfaces.UserDao
 import com.silverbullet.core.data.db.utils.DbResult
+import com.silverbullet.core.events.EventsDispatcher
+import com.silverbullet.core.mappers.toMessage
 import com.silverbullet.core.model.Message
 import com.silverbullet.feature_auth.UserNotFound
 import com.silverbullet.feature_channels.NoCommonChannelBetweenUsers
 import com.silverbullet.feature_messages.model.SendMessageRequest
 import com.silverbullet.utils.UnexpectedError
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 class MessagesController(
     private val usersDao: UserDao,
     private val channelsDao: ChannelsDao,
-    private val messagesDao: MessagesDao
+    private val messagesDao: MessagesDao,
+    private val eventsDispatcher: EventsDispatcher
 ) {
 
     suspend fun getChannelMessages(channelId: Int): List<Message> {
@@ -38,6 +43,18 @@ class MessagesController(
         )
         if (messagesDao.sendMessage(messageEntity) !is DbResult.Success) {
             throw UnexpectedError()
+        }
+        notifyReceivingUser(message = messageEntity.toMessage(), receiverId = receiverUser.id)
+    }
+
+    private suspend fun notifyReceivingUser(message: Message, receiverId: Int) {
+        coroutineScope {
+            launch {
+                eventsDispatcher.onReceivedMessage(
+                    message = message,
+                    userId = receiverId
+                )
+            }
         }
     }
 }

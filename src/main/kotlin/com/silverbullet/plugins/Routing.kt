@@ -1,5 +1,6 @@
 package com.silverbullet.plugins
 
+import com.silverbullet.core.events.configureEventsDispatchingRoute
 import com.silverbullet.feature_auth.route.configureAuthenticationRoutes
 import com.silverbullet.feature_channels.route.configureChannelsRoutes
 import com.silverbullet.feature_messages.route.configureMessagesRoutes
@@ -11,5 +12,6 @@ fun Application.configureRouting() {
         configureAuthenticationRoutes()
         configureChannelsRoutes()
         configureMessagesRoutes()
+        configureEventsDispatchingRoute()
     }
 }
