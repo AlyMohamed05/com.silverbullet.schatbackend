@@ -35,4 +35,6 @@ abstract class EventsDispatcher {
         val session = subscribedUsers[userId] ?: return
         session.sendSerialized(event)
     }
+
+    fun isUserOnline(userId: Int): Boolean = subscribedUsers[userId] != null
 }
