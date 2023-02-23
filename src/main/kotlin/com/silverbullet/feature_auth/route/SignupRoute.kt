@@ -16,8 +16,8 @@ fun Route.signupRoute(controller: AuthenticationController) {
             call.receive<SignupRequest>()
         }.apply {
             onSuccess { request ->
-                controller.signup(request)
-                call.respond("signed up successfully")
+                val newUserInfo = controller.signup(request)
+                call.respond(newUserInfo)
             }
             onFailure {
                 throw InvalidRequestBody()

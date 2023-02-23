@@ -38,6 +38,21 @@ fun Application.configureStatusPages() {
                     message = mapOf("error" to cause.error)
                 )
 
+                is AlreadyHaveChannel -> call.respond(
+                    status = HttpStatusCode.Conflict,
+                    message = mapOf("error" to cause.error)
+                )
+
+                is NoChannelIdFound -> call.respond(
+                    status = HttpStatusCode.BadRequest,
+                    message = mapOf("error" to cause.error)
+                )
+
+                is NoCommonChannelBetweenUsers -> call.respond(
+                    status = HttpStatusCode.Conflict,
+                    message = mapOf("error" to cause.error)
+                )
+
                 is UnexpectedError -> call.respond(
                     status = HttpStatusCode.InternalServerError,
                     message = mapOf("error" to cause.error)

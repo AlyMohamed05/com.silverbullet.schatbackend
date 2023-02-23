@@ -1,6 +1,6 @@
-package com.silverbullet.core.model
+package com.silverbullet.core.data.db.entity
 
-data class User(
+data class UserEntity(
     val username: String,
     val name: String,
     val password: String,

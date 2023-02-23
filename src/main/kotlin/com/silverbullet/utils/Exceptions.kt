@@ -15,4 +15,10 @@ class InvalidCredentials: ApplicationException(error = "invalid login credential
 
 class InvalidRefreshToken: ApplicationException(error = "invalid refresh token")
 
+class AlreadyHaveChannel: ApplicationException(error = "already have channel")
+
+class NoChannelIdFound: ApplicationException(error = "you must pass the channel id")
+
+class NoCommonChannelBetweenUsers: ApplicationException(error = "these users are not connected")
+
 class UnexpectedError: ApplicationException(error = "unexpected error occurred")

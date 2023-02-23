@@ -4,7 +4,8 @@ import com.silverbullet.core.data.db.interfaces.RefreshTokenDao
 import com.silverbullet.core.data.db.interfaces.UserDao
 import com.silverbullet.core.data.db.utils.DbError
 import com.silverbullet.core.data.db.utils.DbResult
-import com.silverbullet.core.data.model.RefreshToken
+import com.silverbullet.core.data.db.entity.RefreshTokenEntity
+import com.silverbullet.core.model.UserInfo
 import com.silverbullet.core.security.hashing.SHA256HashingService
 import com.silverbullet.core.security.hashing.SaltedHash
 import com.silverbullet.core.security.token.JwtTokenService
@@ -23,7 +24,7 @@ class AuthenticationController(
     private val refreshTokenDao: RefreshTokenDao
 ) {
 
-    suspend fun signup(request: SignupRequest) {
+    suspend fun signup(request: SignupRequest): UserInfo {
         val hashedPassword = hashingService.generateSaltedHash(request.password)
         val result = userDao.createUser(
             username = request.username,
@@ -36,6 +37,7 @@ class AuthenticationController(
                 throw UsernameAlreadyExists()
             }
         }
+        return (result as DbResult.Success).data
     }
 
     suspend fun login(request: LoginRequest): Tokens {
@@ -53,10 +55,10 @@ class AuthenticationController(
         val userClaim = TokenClaim(key = "userId", value = user.id.toString())
         val accessToken = jwtTokenService.generateAccessToken(userClaim)
         val refreshToken = jwtTokenService.generateRefreshToken(userClaim)
-        coroutineScope{
+        coroutineScope {
             launch {
                 refreshTokenDao.storeRefreshToken(
-                    RefreshToken(token = refreshToken, userId = user.id)
+                    RefreshTokenEntity(token = refreshToken, userId = user.id)
                 )
             }
         }
@@ -70,12 +72,12 @@ class AuthenticationController(
      * @return a new jwt access token
      * // TODO: This function needs to be modified as for now it's just not secure and you can't change the state of refresh token to be invalid
      */
-    suspend fun refreshToken(token: String): String{
+    suspend fun refreshToken(token: String): String {
         val userId = jwtTokenService
             .getUserIdFromRefreshToken(token) ?: throw InvalidRefreshToken()
         val userToken = refreshTokenDao
             .getUserRefreshToken(userId) ?: throw InvalidRefreshToken()
-        if(token == userToken){
+        if (token == userToken) {
             val userClaim = TokenClaim(key = "userId", value = userId.toString())
             return jwtTokenService.generateAccessToken(userClaim)
             // TODO: You need to add more security by checking if the refresh token is valid or not and so on.
@@ -84,10 +86,10 @@ class AuthenticationController(
         throw InvalidRefreshToken()
     }
 
-    suspend fun logout(userId: Int){
+    suspend fun logout(userId: Int) {
         // for now just deleting the refresh token to prevent reusing it to access protected routes
-        val isDeleted =refreshTokenDao.deleteTokenForUser(userId)
-        if(!isDeleted)
+        val isDeleted = refreshTokenDao.deleteTokenForUser(userId)
+        if (!isDeleted)
             throw UnexpectedError()
     }
 }

@@ -1,7 +1,8 @@
 package com.silverbullet.core.data.db.interfaces
 
 import com.silverbullet.core.data.db.utils.DbResult
-import com.silverbullet.core.model.User
+import com.silverbullet.core.data.db.entity.UserEntity
+import com.silverbullet.core.model.UserInfo
 
 interface UserDao {
 
@@ -10,7 +11,7 @@ interface UserDao {
         name: String,
         password: String,
         salt: String
-    ): DbResult<Unit>
+    ): DbResult<UserInfo>
 
-    suspend fun getUser(username: String): DbResult<User?>
+    suspend fun getUser(username: String): DbResult<UserEntity?>
 }
