@@ -20,7 +20,7 @@ val daoModule = module {
     }
 
     single<ChannelsDao> {
-        ChannelsDaoImpl()
+        ChannelsDaoImpl(get())
     }
 
     single<MessagesDao> {

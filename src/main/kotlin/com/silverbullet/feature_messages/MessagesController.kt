@@ -33,7 +33,7 @@ class MessagesController(
         val receiverUser =
             (usersDao.getUser(request.receiverUsername) as? DbResult.Success)?.data ?: throw UserNotFound()
         val commonChannelId =
-            channelsDao.getCommonChannel(senderId, receiverUser.id).data ?: throw NoCommonChannelBetweenUsers()
+            channelsDao.getCommonChannelId(senderId, receiverUser.id).data ?: throw NoCommonChannelBetweenUsers()
         val messageEntity = MessageEntity(
             senderId = senderId,
             receiverId = receiverUser.id,

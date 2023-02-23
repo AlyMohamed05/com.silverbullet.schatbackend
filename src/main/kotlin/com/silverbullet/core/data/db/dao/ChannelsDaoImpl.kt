@@ -1,5 +1,6 @@
 package com.silverbullet.core.data.db.dao
 
+import com.silverbullet.core.data.db.entity.MessageEntity
 import com.silverbullet.core.data.db.interfaces.ChannelsDao
 import com.silverbullet.core.data.db.table.Channel
 import com.silverbullet.core.data.db.table.User
@@ -8,11 +9,19 @@ import com.silverbullet.core.data.db.table.ref.ChannelMembershipsTable
 import com.silverbullet.core.data.db.utils.DbError
 import com.silverbullet.core.data.db.utils.DbResult
 import com.silverbullet.core.data.db.utils.dbQuery
+import com.silverbullet.core.mappers.toMessage
 import com.silverbullet.core.model.ChannelInfo
+import com.silverbullet.core.model.Message
 import com.silverbullet.core.model.UserInfo
 import org.jetbrains.exposed.sql.insert
+import org.litote.kmongo.coroutine.CoroutineDatabase
+import org.litote.kmongo.eq
 
-class ChannelsDaoImpl: ChannelsDao {
+class ChannelsDaoImpl(
+    db: CoroutineDatabase
+) : ChannelsDao {
+
+    private val messagesCollection = db.getCollection<MessageEntity>()
 
     override suspend fun createChannel(): DbResult<Int> =
         dbQuery {
@@ -46,7 +55,7 @@ class ChannelsDaoImpl: ChannelsDao {
             DbResult.Success(false)
         }
 
-    override suspend fun getCommonChannel(user1Id: Int, user2Id: Int): DbResult.Success<Int?> =
+    override suspend fun getCommonChannelId(user1Id: Int, user2Id: Int): DbResult.Success<Int?> =
         dbQuery {
             val user1 = User.findById(user1Id)
             val commonChannel = user1
@@ -75,9 +84,20 @@ class ChannelsDaoImpl: ChannelsDao {
                     }
                     ChannelInfo(
                         id = ch.id.value,
-                        members = channelUsers
+                        members = channelUsers,
+                        lastMessage = getTheLastMessageForChannel(ch.id.value)
                     )
                 }
             DbResult.Success(channels)
         }
+
+    private suspend fun getTheLastMessageForChannel(channelId: Int): Message? {
+        return messagesCollection
+            .find(MessageEntity::channelId eq channelId)
+            .descendingSort(MessageEntity::timestamp)
+            .limit(1)
+            .toList()
+            .singleOrNull()
+            ?.toMessage()
+    }
 }

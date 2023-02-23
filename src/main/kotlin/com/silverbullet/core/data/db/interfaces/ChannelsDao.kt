@@ -20,7 +20,10 @@ interface ChannelsDao {
         user2Id: Int
     ): DbResult.Success<Boolean>
 
-    suspend fun getCommonChannel(
+    /**
+     * @return the channel id the connects these 2 users
+     */
+    suspend fun getCommonChannelId(
         user1Id: Int,
         user2Id: Int
     ): DbResult.Success<Int?>
