@@ -10,7 +10,6 @@ fun Route.configureChannelsRoutes(){
 
     route("channels"){
         createChannelRoute(controller = channelsController)
-        sendMessageRoute(controller = channelsController)
         userChannelsRoute(controller = channelsController)
     }
 }

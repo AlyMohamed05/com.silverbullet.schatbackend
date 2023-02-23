@@ -3,6 +3,7 @@ package com.silverbullet.core.data.db.dao
 import com.silverbullet.core.data.db.entity.MessageEntity
 import com.silverbullet.core.data.db.interfaces.MessagesDao
 import com.silverbullet.core.data.db.utils.DbResult
+import com.silverbullet.core.data.db.utils.dbQuery
 import com.silverbullet.core.mappers.toMessage
 import com.silverbullet.core.model.Message
 import org.litote.kmongo.coroutine.CoroutineDatabase
@@ -22,4 +23,10 @@ class MessagesDaoImpl(
             .map(MessageEntity::toMessage)
         return DbResult.Success(messages)
     }
+
+    override suspend fun sendMessage(message: MessageEntity): DbResult<Unit> =
+        dbQuery {
+            messagesCollection.insertOne(message)
+            DbResult.Success(Unit)
+        }
 }

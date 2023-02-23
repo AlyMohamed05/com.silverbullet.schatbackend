@@ -3,22 +3,16 @@ package com.silverbullet.core.data.db.dao
 import com.silverbullet.core.data.db.interfaces.ChannelsDao
 import com.silverbullet.core.data.db.table.Channel
 import com.silverbullet.core.data.db.table.User
-import com.silverbullet.core.data.db.table.Users
-import com.silverbullet.core.data.db.table.ref.ChannelMemberships
+import com.silverbullet.core.data.db.table.UsersTable
+import com.silverbullet.core.data.db.table.ref.ChannelMembershipsTable
 import com.silverbullet.core.data.db.utils.DbError
 import com.silverbullet.core.data.db.utils.DbResult
 import com.silverbullet.core.data.db.utils.dbQuery
-import com.silverbullet.core.data.db.entity.MessageEntity
 import com.silverbullet.core.model.ChannelInfo
 import com.silverbullet.core.model.UserInfo
 import org.jetbrains.exposed.sql.insert
-import org.litote.kmongo.coroutine.CoroutineDatabase
 
-class ChannelsDaoImpl(
-    db: CoroutineDatabase
-) : ChannelsDao {
-
-    private val messagesCollection = db.getCollection<MessageEntity>()
+class ChannelsDaoImpl: ChannelsDao {
 
     override suspend fun createChannel(): DbResult<Int> =
         dbQuery {
@@ -30,7 +24,7 @@ class ChannelsDaoImpl(
         userId: Int,
         channelId: Int
     ): DbResult<Unit> = dbQuery {
-        ChannelMemberships.insert {
+        ChannelMembershipsTable.insert {
             it[user] = userId
             it[channel] = channelId
         }
@@ -42,7 +36,7 @@ class ChannelsDaoImpl(
         user2Id: Int
     ): DbResult.Success<Boolean> =
         dbQuery {
-            val user1 = User.find { Users.id eq user1Id }.first()
+            val user1 = User.find { UsersTable.id eq user1Id }.first()
             user1
                 .channels
                 .forEach { channel ->
@@ -64,12 +58,6 @@ class ChannelsDaoImpl(
             DbResult.Success(commonChannel?.id?.value)
         }
 
-
-    override suspend fun sendMessage(message: MessageEntity): DbResult<Unit> =
-        dbQuery {
-            messagesCollection.insertOne(message)
-            DbResult.Success(Unit)
-        }
 
     override suspend fun getUserChannels(
         userId: Int

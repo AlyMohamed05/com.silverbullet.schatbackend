@@ -1,7 +1,7 @@
 package com.silverbullet.feature_messages.route
 
+import com.silverbullet.feature_channels.NoChannelIdFound
 import com.silverbullet.feature_messages.MessagesController
-import com.silverbullet.utils.NoChannelIdFound
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.response.*

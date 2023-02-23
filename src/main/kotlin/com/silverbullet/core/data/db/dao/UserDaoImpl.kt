@@ -1,7 +1,7 @@
 package com.silverbullet.core.data.db.dao
 
 import com.silverbullet.core.data.db.interfaces.UserDao
-import com.silverbullet.core.data.db.table.Users
+import com.silverbullet.core.data.db.table.UsersTable
 import com.silverbullet.core.data.db.utils.DbResult
 import com.silverbullet.core.data.db.utils.dbQuery
 import com.silverbullet.core.data.db.utils.toDbError
@@ -22,11 +22,11 @@ class UserDaoImpl : UserDao {
     ): DbResult<UserInfo> =
         dbQuery {
             try {
-                Users.insert {
-                    it[Users.username] = username
-                    it[Users.name] = name
-                    it[Users.password] = password
-                    it[Users.salt] = salt
+                UsersTable.insert {
+                    it[UsersTable.username] = username
+                    it[UsersTable.name] = name
+                    it[UsersTable.password] = password
+                    it[UsersTable.salt] = salt
                 }
                 DbResult.Success(UserInfo(username = username, name = name))
             } catch (e: ExposedSQLException) {
@@ -37,8 +37,8 @@ class UserDaoImpl : UserDao {
     override suspend fun getUser(username: String): DbResult<UserEntity?> {
         return try {
             val user = dbQuery {
-                Users.select {
-                    Users.username eq username
+                UsersTable.select {
+                    UsersTable.username eq username
                 }
                     .singleOrNull()
                     ?.toUser()
@@ -51,11 +51,11 @@ class UserDaoImpl : UserDao {
 
     private fun ResultRow.toUser(): UserEntity {
         return UserEntity(
-            username = this[Users.username],
-            name = this[Users.name],
-            password = this[Users.password],
-            salt = this[Users.salt],
-            id = this[Users.id].value
+            username = this[UsersTable.username],
+            name = this[UsersTable.name],
+            password = this[UsersTable.password],
+            salt = this[UsersTable.salt],
+            id = this[UsersTable.id].value
         )
     }
 }

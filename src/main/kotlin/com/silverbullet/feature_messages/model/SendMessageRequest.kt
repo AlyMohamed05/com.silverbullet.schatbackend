@@ -1,4 +1,4 @@
-package com.silverbullet.feature_channels.model
+package com.silverbullet.feature_messages.model
 
 import kotlinx.serialization.Serializable
 

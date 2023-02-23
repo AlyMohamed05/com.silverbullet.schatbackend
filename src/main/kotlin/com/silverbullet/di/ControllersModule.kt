@@ -16,6 +16,6 @@ val controllersModule = module {
     }
 
     single {
-        MessagesController(get())
+        MessagesController(get(), get(), get())
     }
 }

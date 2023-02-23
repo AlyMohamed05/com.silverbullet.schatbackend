@@ -1,24 +1,37 @@
 package com.silverbullet.utils
 
+import io.ktor.http.*
+import io.ktor.server.application.*
+import io.ktor.server.response.*
+
 /**
  * All of childs of this exception are handled in status pages plugin
  */
-abstract class ApplicationException(val error: String): Exception()
+abstract class ApplicationException(
+    val error: String,
+    private val httpStatusCode: HttpStatusCode,
+    private val errorCode: Int
+) : Exception() {
 
-class InvalidRequestBody : ApplicationException(error = "invalid request body")
+    suspend fun handle(call: ApplicationCall) {
+        call.respond(
+            status = httpStatusCode,
+            message = ErrorMessage(
+                error = error,
+                errorCode = errorCode
+            )
+        )
+    }
+}
 
-class UsernameAlreadyExists: ApplicationException(error = "username already exists")
+class UnexpectedError : ApplicationException(
+    error = "unexpected error occurred",
+    httpStatusCode = HttpStatusCode.InternalServerError,
+    errorCode = ApplicationErrorCodes.UnexpectedErrorCode
+)
 
-class UserNotFound: ApplicationException(error = "user not found")
-
-class InvalidCredentials: ApplicationException(error = "invalid login credentials")
-
-class InvalidRefreshToken: ApplicationException(error = "invalid refresh token")
-
-class AlreadyHaveChannel: ApplicationException(error = "already have channel")
-
-class NoChannelIdFound: ApplicationException(error = "you must pass the channel id")
-
-class NoCommonChannelBetweenUsers: ApplicationException(error = "these users are not connected")
-
-class UnexpectedError: ApplicationException(error = "unexpected error occurred")
+class InvalidRequestBody : ApplicationException(
+    error = "invalid request body",
+    httpStatusCode = HttpStatusCode.BadRequest,
+    errorCode = ApplicationErrorCodes.InvalidRequestBodyCode
+)

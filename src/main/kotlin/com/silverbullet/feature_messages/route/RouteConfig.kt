@@ -11,5 +11,6 @@ fun Route.configureMessagesRoutes() {
     route("messages") {
 
         channelMessagesRoute(controller = messagesController)
+        sendMessageRoute(controller = messagesController)
     }
 }

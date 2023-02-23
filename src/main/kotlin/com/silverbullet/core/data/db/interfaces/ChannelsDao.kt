@@ -1,7 +1,6 @@
 package com.silverbullet.core.data.db.interfaces
 
 import com.silverbullet.core.data.db.utils.DbResult
-import com.silverbullet.core.data.db.entity.MessageEntity
 import com.silverbullet.core.model.ChannelInfo
 
 interface ChannelsDao {
@@ -26,7 +25,6 @@ interface ChannelsDao {
         user2Id: Int
     ): DbResult.Success<Int?>
 
-    suspend fun sendMessage(message: MessageEntity): DbResult<Unit>
 
     suspend fun getUserChannels(userId: Int): DbResult<List<ChannelInfo>>
 }
