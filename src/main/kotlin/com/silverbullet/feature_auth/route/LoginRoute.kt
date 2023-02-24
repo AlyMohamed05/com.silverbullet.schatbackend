@@ -1,7 +1,7 @@
 package com.silverbullet.feature_auth.route
 
 import com.silverbullet.feature_auth.AuthenticationController
-import com.silverbullet.feature_auth.model.LoginRequest
+import com.silverbullet.feature_auth.request.LoginRequest
 import com.silverbullet.utils.InvalidRequestBody
 import io.ktor.server.application.*
 import io.ktor.server.request.*

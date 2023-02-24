@@ -48,7 +48,7 @@ class ConnectionsDaoImpl : ConnectionsDao {
         val connectionExists = ConnectionsTable
             .select { (user1 eq smallerId) and (user2 eq largerId) }
             .count() > 0
-        DbResult.Success(!connectionExists)
+        DbResult.Success(connectionExists)
     }
 
     override suspend fun getUserConnectionsIds(userId: Int): DbResult<List<Int>> =

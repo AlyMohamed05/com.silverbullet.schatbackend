@@ -1,7 +1,7 @@
 package com.silverbullet.feature_messages.route
 
 import com.silverbullet.feature_messages.MessagesController
-import com.silverbullet.feature_messages.model.SendMessageRequest
+import com.silverbullet.feature_messages.request.SendMessageRequest
 import com.silverbullet.utils.InvalidRequestBody
 import com.silverbullet.utils.UnexpectedError
 import com.silverbullet.utils.userId

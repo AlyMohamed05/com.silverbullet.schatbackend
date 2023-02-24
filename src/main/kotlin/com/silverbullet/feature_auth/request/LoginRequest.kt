@@ -1,10 +1,9 @@
-package com.silverbullet.feature_auth.model
+package com.silverbullet.feature_auth.request
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class SignupRequest(
+data class LoginRequest(
     val username: String,
-    val name: String,
     val password: String
 )

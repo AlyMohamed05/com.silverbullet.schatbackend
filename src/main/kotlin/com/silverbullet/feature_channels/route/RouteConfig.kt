@@ -9,7 +9,6 @@ fun Route.configureChannelsRoutes(){
     val channelsController by inject<ChannelsController>()
 
     route("channels"){
-        createChannelRoute(controller = channelsController)
         userChannelsRoute(controller = channelsController)
     }
 }

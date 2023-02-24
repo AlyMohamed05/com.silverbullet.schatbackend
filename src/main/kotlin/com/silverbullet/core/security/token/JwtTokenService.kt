@@ -23,7 +23,6 @@ class JwtTokenService(private val tokenConfig: JwtTokenConfig) {
     }
 
     fun getUserIdFromRefreshToken(token: String): Int? {
-        println("Parsing the refresh token...")
         return try {
             JWT
                 .decode(token)
@@ -32,8 +31,6 @@ class JwtTokenService(private val tokenConfig: JwtTokenConfig) {
                 ?.replace("\"","") // it returns a string like ""1"" which fails to convert to int
                 ?.toIntOrNull()
         }catch (e: Exception){
-            println(e)
-            println(e.message)
             null
         }
     }

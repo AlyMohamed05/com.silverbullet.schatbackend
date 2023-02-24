@@ -10,7 +10,7 @@ import com.silverbullet.core.mappers.toMessage
 import com.silverbullet.core.model.Message
 import com.silverbullet.feature_auth.UserNotFound
 import com.silverbullet.feature_channels.NoCommonChannelBetweenUsers
-import com.silverbullet.feature_messages.model.SendMessageRequest
+import com.silverbullet.feature_messages.request.SendMessageRequest
 import com.silverbullet.utils.UnexpectedError
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch

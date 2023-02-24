@@ -1,4 +1,4 @@
-package com.silverbullet.feature_auth.model
+package com.silverbullet.feature_auth.request
 
 import kotlinx.serialization.Serializable
 

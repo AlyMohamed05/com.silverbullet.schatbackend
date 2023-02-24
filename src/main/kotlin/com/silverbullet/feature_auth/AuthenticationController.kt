@@ -10,8 +10,8 @@ import com.silverbullet.core.security.hashing.SHA256HashingService
 import com.silverbullet.core.security.hashing.SaltedHash
 import com.silverbullet.core.security.token.JwtTokenService
 import com.silverbullet.core.security.token.TokenClaim
-import com.silverbullet.feature_auth.model.LoginRequest
-import com.silverbullet.feature_auth.model.SignupRequest
+import com.silverbullet.feature_auth.request.LoginRequest
+import com.silverbullet.feature_auth.request.SignupRequest
 import com.silverbullet.feature_auth.model.Tokens
 import com.silverbullet.utils.*
 import kotlinx.coroutines.coroutineScope

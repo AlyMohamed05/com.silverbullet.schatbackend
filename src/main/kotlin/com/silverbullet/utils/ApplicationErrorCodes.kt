@@ -26,4 +26,7 @@ object ApplicationErrorCodes {
 
     // Messages routes Codes
     const val MESSAGE_NOT_FOUND = 10
+
+    // Connections routes Codes
+    const val AlreadyConnectedUsers = 11
 }

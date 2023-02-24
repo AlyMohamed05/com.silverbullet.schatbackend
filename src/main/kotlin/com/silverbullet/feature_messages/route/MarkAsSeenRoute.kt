@@ -1,7 +1,7 @@
 package com.silverbullet.feature_messages.route
 
 import com.silverbullet.feature_messages.MessagesController
-import com.silverbullet.feature_messages.model.MarkAsSeenRequest
+import com.silverbullet.feature_messages.request.MarkAsSeenRequest
 import com.silverbullet.utils.InvalidRequestBody
 import com.silverbullet.utils.UnexpectedError
 import com.silverbullet.utils.userId
