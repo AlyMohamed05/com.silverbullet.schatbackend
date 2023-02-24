@@ -9,6 +9,7 @@ data class MessageEntity(
     val channelId: Int,
     val text: String,
     val timestamp: Long,
+    val seen: Boolean = false,
     @BsonId
     val id: String = ObjectId().toString()
 )

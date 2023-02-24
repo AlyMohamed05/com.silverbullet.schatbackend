@@ -18,6 +18,11 @@ abstract class EventsDispatcher {
         userId: Int
     )
 
+    abstract suspend fun onMessageUpdated(
+        senderId: Int,
+        message: Message
+    )
+
     suspend fun subscribeUser(
         userId: Int,
         session: DefaultWebSocketServerSession
@@ -33,6 +38,9 @@ abstract class EventsDispatcher {
         notifyFriendsWithOnlineStatus(userId, inOnline = false)
     }
 
+    /**
+     * Sends an event to user if he is subscribed to events
+     */
     suspend fun sendEvent(userId: Int, event: Event) {
         val session = subscribedUsers[userId] ?: return
         session.sendSerialized(event)

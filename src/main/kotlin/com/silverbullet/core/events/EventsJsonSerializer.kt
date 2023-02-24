@@ -10,6 +10,7 @@ val eventsSerializationModule = SerializersModule {
         subclass(AddedToChannelEvent::class)
         subclass(ReceivedMessage::class)
         subclass(OnlineStatus::class)
+        subclass(UpdatedMessage::class)
     }
 }
 

@@ -23,4 +23,7 @@ object ApplicationErrorCodes {
     const val NoChannelIdFoundCode = 8
 
     const val NoCommonChannelBetweenUsersCode = 9
+
+    // Messages routes Codes
+    const val MESSAGE_NOT_FOUND = 10
 }

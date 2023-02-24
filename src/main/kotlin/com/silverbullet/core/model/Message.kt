@@ -8,5 +8,6 @@ data class Message(
     val receiverId: Int,
     val channelId: Int,
     val text: String,
+    val seen: Boolean,
     val id: String
 )

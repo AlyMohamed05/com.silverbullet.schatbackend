@@ -1,13 +1,18 @@
 package com.silverbullet.core.data.db.dao
 
+import com.mongodb.client.model.FindOneAndUpdateOptions
+import com.mongodb.client.model.ReturnDocument
 import com.silverbullet.core.data.db.entity.MessageEntity
 import com.silverbullet.core.data.db.interfaces.MessagesDao
+import com.silverbullet.core.data.db.utils.DbError
 import com.silverbullet.core.data.db.utils.DbResult
 import com.silverbullet.core.data.db.utils.dbQuery
 import com.silverbullet.core.mappers.toMessage
 import com.silverbullet.core.model.Message
+import org.litote.kmongo.and
 import org.litote.kmongo.coroutine.CoroutineDatabase
 import org.litote.kmongo.eq
+import org.litote.kmongo.setValue
 
 class MessagesDaoImpl(
     db: CoroutineDatabase
@@ -29,4 +34,20 @@ class MessagesDaoImpl(
             messagesCollection.insertOne(message)
             DbResult.Success(Unit)
         }
+
+    override suspend fun markMessageAsSeen(
+        receiverId: Int,
+        messageId: String
+    ): DbResult<Message> {
+        val message = messagesCollection
+            .findOneAndUpdate(
+                filter = and(
+                    MessageEntity::id eq messageId,
+                    MessageEntity::receiverId eq receiverId
+                ),
+                setValue(MessageEntity::seen, true),
+                options = FindOneAndUpdateOptions().returnDocument(ReturnDocument.AFTER)
+            ) ?: return DbResult.Failed(DbError.MESSAGE_NOT_FOUND)
+        return DbResult.Success(message.toMessage())
+    }
 }

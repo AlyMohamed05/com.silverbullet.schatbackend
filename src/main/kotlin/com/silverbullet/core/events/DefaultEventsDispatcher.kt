@@ -20,6 +20,14 @@ class DefaultEventsDispatcher(
         sendEvent(userId = userId, event = messageEvent)
     }
 
+    override suspend fun onMessageUpdated(senderId: Int, message: Message) {
+        val event: Event = UpdatedMessage(message)
+        sendEvent(
+            userId = senderId,
+            event = event
+        )
+    }
+
     override suspend fun notifyFriendsWithOnlineStatus(userId: Int, inOnline: Boolean) {
         val event: Event = OnlineStatus(userId = userId, inOnline)
         val userConnections = (connectionsDao.getUserConnectionsIds(userId) as DbResult.Success).data

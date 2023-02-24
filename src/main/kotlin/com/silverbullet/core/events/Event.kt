@@ -24,3 +24,9 @@ data class OnlineStatus(
     val userId: Int,
     val isOnline: Boolean
 ): Event
+
+@Serializable
+@SerialName("message_updated")
+data class UpdatedMessage(
+    val message: Message
+): Event

@@ -9,5 +9,6 @@ fun MessageEntity.toMessage(): Message =
         receiverId = receiverId,
         channelId = channelId,
         text = text,
+        seen = seen,
         id = id
     )

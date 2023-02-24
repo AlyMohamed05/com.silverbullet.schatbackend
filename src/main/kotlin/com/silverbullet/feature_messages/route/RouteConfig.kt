@@ -12,5 +12,6 @@ fun Route.configureMessagesRoutes() {
 
         channelMessagesRoute(controller = messagesController)
         sendMessageRoute(controller = messagesController)
+        markAsSeenRoute(controller = messagesController)
     }
 }
