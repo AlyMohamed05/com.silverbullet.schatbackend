@@ -24,6 +24,6 @@ val appModule = module {
     }
 
     single<EventsDispatcher> {
-        DefaultEventsDispatcher()
+        DefaultEventsDispatcher(get())
     }
 }

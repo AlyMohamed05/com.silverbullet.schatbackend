@@ -1,13 +1,7 @@
 package com.silverbullet.di
 
-import com.silverbullet.core.data.db.dao.ChannelsDaoImpl
-import com.silverbullet.core.data.db.dao.MessagesDaoImpl
-import com.silverbullet.core.data.db.dao.RefreshTokenDaoImpl
-import com.silverbullet.core.data.db.dao.UserDaoImpl
-import com.silverbullet.core.data.db.interfaces.ChannelsDao
-import com.silverbullet.core.data.db.interfaces.MessagesDao
-import com.silverbullet.core.data.db.interfaces.RefreshTokenDao
-import com.silverbullet.core.data.db.interfaces.UserDao
+import com.silverbullet.core.data.db.dao.*
+import com.silverbullet.core.data.db.interfaces.*
 import org.koin.dsl.module
 
 val daoModule = module {
@@ -25,5 +19,9 @@ val daoModule = module {
 
     single<MessagesDao> {
         MessagesDaoImpl(get())
+    }
+
+    single<ConnectionsDao>{
+        ConnectionsDaoImpl()
     }
 }

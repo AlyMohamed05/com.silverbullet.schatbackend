@@ -3,6 +3,7 @@ package com.silverbullet.core.data.db.utils
 import com.silverbullet.core.data.db.table.ChannelsTable
 import com.silverbullet.core.data.db.table.UsersTable
 import com.silverbullet.core.data.db.table.ref.ChannelMembershipsTable
+import com.silverbullet.core.data.db.table.ref.ConnectionsTable
 import io.ktor.server.application.*
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
@@ -24,6 +25,11 @@ fun Application.configureDb() {
         password = password
     )
     transaction {
-        SchemaUtils.create(UsersTable,ChannelsTable,ChannelMembershipsTable)
+        SchemaUtils.create(
+            UsersTable,
+            ChannelsTable,
+            ChannelMembershipsTable,
+            ConnectionsTable
+        )
     }
 }

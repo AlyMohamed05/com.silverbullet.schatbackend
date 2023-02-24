@@ -1,6 +1,7 @@
 package com.silverbullet.feature_channels
 
 import com.silverbullet.core.data.db.interfaces.ChannelsDao
+import com.silverbullet.core.data.db.interfaces.ConnectionsDao
 import com.silverbullet.core.data.db.interfaces.UserDao
 import com.silverbullet.core.data.db.utils.DbResult
 import com.silverbullet.core.events.EventsDispatcher
@@ -13,7 +14,8 @@ import kotlinx.coroutines.launch
 class ChannelsController(
     private val usersDao: UserDao,
     private val channelsDao: ChannelsDao,
-    private val eventsDispatcher: EventsDispatcher
+    private val connectionsDao: ConnectionsDao,
+    private val eventsDispatcher: EventsDispatcher,
 ) {
 
     /**
@@ -35,6 +37,7 @@ class ChannelsController(
         // Now add the users to the channel
         channelsDao.addUserToChannel(userId = userId, channelId = channelId)
         channelsDao.addUserToChannel(userId = targetUserId, channelId = channelId)
+        connectionsDao.connectUser(userId, targetUserId)
         coroutineScope {
             launch {
                 eventsDispatcher.onCreateChannel(channelId = channelId, userId, targetUserId)

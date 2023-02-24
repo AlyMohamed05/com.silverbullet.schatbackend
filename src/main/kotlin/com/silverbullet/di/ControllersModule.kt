@@ -3,7 +3,6 @@ package com.silverbullet.di
 import com.silverbullet.feature_auth.AuthenticationController
 import com.silverbullet.feature_channels.ChannelsController
 import com.silverbullet.feature_messages.MessagesController
-import com.silverbullet.feature_userinfo.UserInfoController
 import org.koin.dsl.module
 
 val controllersModule = module {
@@ -13,14 +12,10 @@ val controllersModule = module {
     }
 
     single {
-        ChannelsController(get(), get(), get())
+        ChannelsController(get(), get(), get(), get())
     }
 
     single {
         MessagesController(get(), get(), get(), get())
-    }
-
-    single {
-        UserInfoController(get(), get())
     }
 }

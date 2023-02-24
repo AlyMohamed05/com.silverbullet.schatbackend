@@ -18,17 +18,19 @@ abstract class EventsDispatcher {
         userId: Int
     )
 
-    fun subscribeUser(
+    suspend fun subscribeUser(
         userId: Int,
         session: DefaultWebSocketServerSession
     ) {
         subscribedUsers[userId] = session
+        notifyFriendsWithOnlineStatus(userId, inOnline = true)
     }
 
-    fun unSubscribeUser(
+    suspend fun unSubscribeUser(
         userId: Int
     ) {
         subscribedUsers.remove(userId)
+        notifyFriendsWithOnlineStatus(userId, inOnline = false)
     }
 
     suspend fun sendEvent(userId: Int, event: Event) {
@@ -36,5 +38,5 @@ abstract class EventsDispatcher {
         session.sendSerialized(event)
     }
 
-    fun isUserOnline(userId: Int): Boolean = subscribedUsers[userId] != null
+    abstract suspend fun notifyFriendsWithOnlineStatus(userId: Int, inOnline: Boolean)
 }

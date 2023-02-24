@@ -12,6 +12,7 @@ suspend fun WebSocketSession.startPingPong(
             send(Frame.Ping(ByteArray(0)))
         } catch (e: Exception) {
             onPingFailed()
+            break
         }
     }
 }

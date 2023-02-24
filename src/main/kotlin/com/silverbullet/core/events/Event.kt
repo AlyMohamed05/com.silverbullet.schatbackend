@@ -17,3 +17,10 @@ data class AddedToChannelEvent(
 data class ReceivedMessage(
     val message: Message
 ): Event
+
+@Serializable
+@SerialName("online_status")
+data class OnlineStatus(
+    val userId: Int,
+    val isOnline: Boolean
+): Event
